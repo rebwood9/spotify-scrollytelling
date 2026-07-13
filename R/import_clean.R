@@ -3,6 +3,7 @@
 # Packages ----
 library(jsonlite)
 library(tidyverse)
+library(readxl)
 
 # Data ----
 df <- list.files("data/raw", pattern = "Streaming_History_Audio.*\\.json", full.names = TRUE) |> 
@@ -34,4 +35,21 @@ df <- df |>
 # Save bounded data ----
 write_excel_csv(df, "data/raw/combined_output.csv")
 
+# Combine with genre & beat table ----
+genre_df <- read_excel("data/raw/genre_beat_table.xlsx")
 
+genre_df |>
+  count(title, artist, sort = TRUE) |>
+  filter(n > 1)
+
+genre_dedup <- genre_df |>
+  distinct(title, artist, .keep_all = TRUE) |> 
+  select(-year)
+
+df_combined <- df |> 
+  left_join(genre_dedup, by = c("master_metadata_track_name" = "title",
+                             "master_metadata_album_artist_name" = "artist"),
+            relationship = "many-to-many")
+
+# Save data ----
+write_excel_csv(df_combined, "data/raw/combined_genre_output.csv")

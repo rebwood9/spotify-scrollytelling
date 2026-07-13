@@ -5,7 +5,7 @@ library(jsonlite)
 library(tidyverse)
 
 # Data ----
-df <- read_csv("data/raw/combined_output.csv")
+df <- read_csv("data/raw/combined_genre_output.csv")
 
 # Isolate music data ----
 music_df <- df |>
@@ -24,7 +24,8 @@ music_df <- df |>
     master_metadata_album_artist_name,
     reason_start, reason_end,
     shuffle, skipped,
-    year,  month, day, time, minutes_played
+    year,  month, day, time, minutes_played,
+    `top genre`, bpm, nrgy, dnce, dB, live, val, dur, acous, spch, pop 
   )
 
 # Summary Tables ----
@@ -35,6 +36,11 @@ yearly_summary <- music_df |>
     total_minutes = sum(minutes_played),
     unique_songs = n_distinct(master_metadata_track_name), 
     unique_artists = n_distinct(master_metadata_album_artist_name), 
+    unique_genre = n_distinct(`top genre`),
+    avg_bpm = mean(bpm, na.rm = TRUE),
+    sd_bpm = sd(bpm, na.rm = TRUE),
+    avg_nrgy = mean(nrgy, na.rm = TRUE),
+    sd_nrgy = sd(nrgy, na.rm = TRUE),
     .by = year
   )
 
@@ -45,6 +51,11 @@ monthly_summary <- music_df |>
     total_minutes = sum(minutes_played),
     unique_songs = n_distinct(master_metadata_track_name), 
     unique_artists = n_distinct(master_metadata_album_artist_name), 
+    unique_genre = n_distinct(`top genre`),
+    avg_bpm = mean(bpm, na.rm = TRUE),
+    sd_bpm = sd(bpm, na.rm = TRUE),
+    avg_nrgy = mean(nrgy, na.rm = TRUE),
+    sd_nrgy = sd(nrgy, na.rm = TRUE),
     .by = c(year, month)
   )
 
@@ -55,6 +66,11 @@ daily_summary <- music_df |>
     total_minutes = sum(minutes_played),
     unique_songs = n_distinct(master_metadata_track_name), 
     unique_artists = n_distinct(master_metadata_album_artist_name), 
+    unique_genre = n_distinct(`top genre`),
+    avg_bpm = mean(bpm, na.rm = TRUE),
+    sd_bpm = sd(bpm, na.rm = TRUE),
+    avg_nrgy = mean(nrgy, na.rm = TRUE),
+    sd_nrgy = sd(nrgy, na.rm = TRUE),
     .by = c(year, month, day)
   )
 
