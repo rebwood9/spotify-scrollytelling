@@ -1,0 +1,456 @@
+/* ============================================================
+   style.css — Spotify Scrollytelling
+   ============================================================ */
+
+/* ---------- 1. Reset ---------- */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+
+/* ---------- 2. Custom properties ---------- */
+:root {
+  /* color */
+  --accent: #1B90BC;
+  --accent-light: #7FC4DC;
+  --accent-dark: #12657F;
+  --text: #2B2B2B;
+  --text-muted: #6E6E6E;
+  --rule: #DDDDDD;
+  --bg: #FFFFFF;
+  --bg-alt: #F6F7F8;
+
+  /* type */
+  --font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-serif: Georgia, "Times New Roman", serif;
+  --size-hed: clamp(2.25rem, 5vw, 4rem);
+  --size-dek: clamp(1.1rem, 2vw, 1.5rem);
+  --size-body: 1.125rem;
+  --size-small: 0.875rem;
+
+  /* layout */
+  --measure: 62ch;
+  --gutter: 1.5rem;
+  --figure-width: 60%;
+  --article-width: 40%;
+
+  /* motion */
+  --ease: cubic-bezier(0.4, 0.0, 0.2, 1);
+  --dur: 500ms;
+}
+
+
+/* ---------- 3. Base ---------- */
+body {
+  font-family: var(--font-sans);
+  font-size: var(--size-body);
+  line-height: 1.65;
+  color: var(--text);
+  background: var(--bg);
+  overflow-x: hidden;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+a:hover {
+  color: var(--accent-dark);
+}
+
+
+/* ---------- 4. Typography ---------- */
+.headline {
+  font-size: var(--size-hed);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.dek {
+  font-family: var(--font-serif);
+  font-size: var(--size-dek);
+  line-height: 1.4;
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+}
+
+.byline {
+  font-size: var(--size-small);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  border-top: 1px solid var(--rule);
+  padding-top: 0.75rem;
+}
+
+.section-head {
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 0.75rem;
+}
+
+.caption,
+.source {
+  font-size: var(--size-small);
+  line-height: 1.45;
+  color: var(--text-muted);
+}
+
+
+/* ---------- 5. Page sections ---------- */
+.intro,
+.outro,
+.interlude {
+  max-width: var(--measure);
+  margin: 0;
+  padding: 6rem var(--gutter);
+}
+
+.intro {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.outro {
+  padding-bottom: 4rem;
+}
+
+.intro p + p,
+.outro p + p,
+.interlude p + p {
+  margin-top: 1.25rem;
+}
+
+
+/* ---------- 6. Scrollytelling core ---------- */
+#scrolly {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  padding: 0 var(--gutter);
+}
+
+#scrolly figure {
+  position: sticky;
+  top: 0;
+  flex: 0 0 var(--figure-width);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin: 0;
+  z-index: 0;
+}
+
+#scrolly article {
+  flex: 0 0 var(--article-width);
+  position: relative;
+  padding: 0 2rem;
+  z-index: 1;
+}
+
+
+/* ---------- 7. Steps ---------- */
+.step {
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+}
+
+.step:first-child {
+  min-height: 60vh;
+}
+
+.step:last-child {
+  margin-bottom: 50vh;
+}
+
+.step-inner {
+  background: var(--bg);
+  border-left: 3px solid var(--rule);
+  padding: 1.5rem;
+  box-shadow: 0 1px 12px rgba(0, 0, 0, 0.06);
+  opacity: 0.35;
+  transform: translateY(8px);
+  transition:
+    opacity var(--dur) var(--ease),
+    transform var(--dur) var(--ease),
+    border-color var(--dur) var(--ease);
+}
+
+.step.is-active .step-inner {
+  opacity: 1;
+  transform: translateY(0);
+  border-left-color: var(--accent);
+}
+
+.step-inner p + p {
+  margin-top: 1rem;
+}
+
+.step-inner .step-label {
+  display: block;
+  font-size: var(--size-small);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+
+
+/* ---------- 8. Chart / SVG ---------- */
+.chart-wrapper {
+  width: 100%;
+  max-width: 720px;
+}
+
+svg.chart {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.axis text {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  fill: var(--text-muted);
+}
+
+.axis path,
+.axis line {
+  stroke: var(--rule);
+  shape-rendering: crispEdges;
+}
+
+.axis .domain {
+  stroke: var(--text-muted);
+}
+
+.axis-label {
+  font-size: 13px;
+  font-weight: 600;
+  fill: var(--text);
+}
+
+.grid line {
+  stroke: var(--rule);
+  stroke-dasharray: 2 3;
+}
+
+.grid .domain {
+  stroke: none;
+}
+
+.bar {
+  fill: var(--accent);
+}
+
+.bar.is-muted {
+  fill: var(--rule);
+}
+
+.bar.is-highlighted {
+  fill: var(--accent-dark);
+}
+
+.line {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2.5;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.dot {
+  fill: var(--accent);
+  stroke: var(--bg);
+  stroke-width: 1.5;
+}
+
+.value-label {
+  font-size: 11px;
+  fill: var(--text-muted);
+}
+
+.annotation {
+  font-family: var(--font-serif);
+  font-size: 14px;
+  font-style: italic;
+  fill: var(--text);
+}
+
+.annotation-line {
+  stroke: var(--text-muted);
+  stroke-width: 1;
+  stroke-dasharray: 3 2;
+}
+
+
+/* ---------- 9. Legend ---------- */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: var(--size-small);
+  color: var(--text-muted);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.legend-swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  background: var(--accent);
+}
+
+
+/* ---------- 10. Tooltip ---------- */
+.tooltip {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0;
+  background: rgba(43, 43, 43, 0.95);
+  color: #fff;
+  font-size: var(--size-small);
+  line-height: 1.35;
+  padding: 0.5rem 0.65rem;
+  border-radius: 4px;
+  white-space: nowrap;
+  transform: translate(-50%, -115%);
+  transition: opacity 150ms var(--ease);
+  z-index: 10;
+}
+
+.tooltip.is-visible {
+  opacity: 1;
+}
+
+.tooltip strong {
+  color: var(--accent-light);
+}
+
+
+/* ---------- 11. Responsive ---------- */
+@media (max-width: 900px) {
+  :root {
+    --figure-width: 55%;
+    --article-width: 45%;
+  }
+  #scrolly article {
+    padding: 0 1rem;
+  }
+}
+
+@media (max-width: 700px) {
+  #scrolly {
+    flex-direction: column;
+    padding: 0;
+  }
+
+  #scrolly figure {
+    flex: none;
+    width: 100%;
+    height: 62vh;
+    top: 0;
+    background: var(--bg);
+    border-bottom: 1px solid var(--rule);
+    padding: 1rem;
+  }
+
+  #scrolly article {
+    flex: none;
+    width: 100%;
+    padding: 0 var(--gutter);
+  }
+
+  .step {
+    min-height: 70vh;
+  }
+
+  .step-inner {
+    background: rgba(255, 255, 255, 0.96);
+  }
+
+  .intro,
+  .outro,
+  .interlude {
+    padding: 4rem var(--gutter);
+  }
+}
+
+
+/* ---------- 12. Accessibility ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+
+/* ---------- 13. Print ---------- */
+@media print {
+  #scrolly {
+    display: block;
+  }
+  #scrolly figure {
+    position: static;
+    width: 100%;
+    height: auto;
+    page-break-inside: avoid;
+  }
+  .step-inner {
+    opacity: 1;
+    box-shadow: none;
+  }
+}

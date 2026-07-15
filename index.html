@@ -2,17 +2,165 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>My Spotify Story</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <div id="scroll-container">
-    <div id="graphic"></div>
-    <div id="steps"></div>
-  </div>
+  <!-- ============================================================
+       INTRO — title card, fills the first screen
+       ============================================================ -->
+  <section class="intro">
+    <h1 class="headline">
+      <!-- NARRATIVE: headline goes here -->
+      Twelve Years of Listening
+    </h1>
+
+    <p class="dek">
+      <!-- NARRATIVE: one or two sentences. What is this, and why should
+           someone scroll? Set up the question the charts will answer. -->
+      Every song I played, every skip, every 3 a.m. repeat — logged since 2014.
+      Here is what the record says.
+    </p>
+
+    <p class="byline">
+      <!-- NARRATIVE: your name and date -->
+      Reb · July 2026
+    </p>
+  </section>
+
+
+  <!-- ============================================================
+       INTERLUDE — optional setup prose before the sticky graphic
+       Delete this section if you want the chart to start immediately.
+       ============================================================ -->
+  <section class="interlude">
+    <h2 class="section-head">
+      <!-- NARRATIVE: chapter title -->
+      Where the data comes from
+    </h2>
+    <p>
+      <!-- NARRATIVE: context paragraph. Spotify's export, what's in it,
+           what counts as a "listen." Keep it short — the reader wants
+           the charts. -->
+    </p>
+    <p>
+      <!-- NARRATIVE: second paragraph if needed -->
+    </p>
+  </section>
+
+
+  <!-- ============================================================
+       SCROLLY — sticky chart on the left, scrolling steps on the right
+       ============================================================ -->
+  <section id="scrolly">
+
+    <figure>
+      <div class="chart-wrapper">
+        <!-- D3 draws into this. Your script sets the viewBox. -->
+        <svg class="chart" id = "chart"></svg>
+      </div>
+      <p class="source">
+        Source: Spotify extended streaming history, 2014–2025
+      </p>
+      <!-- Tooltip lives inside #scrolly so absolute positioning anchors here -->
+      <div class="tooltip"></div>
+    </figure>
+
+    <article>
+
+      <!-- ---------- STEP 1 ---------- -->
+      <div class="step" data-step="1">
+        <div class="step-inner">
+          <span class="step-label">
+            Total Listening Time Across The Years 
+          </span>
+          <p>
+            <!-- NARRATIVE: what is the chart showing right now, and what
+                 should the reader notice? One idea per step. -->
+          </p>
+        </div>
+      </div>
+
+      <!-- ---------- STEP 2 ---------- -->
+      <div class="step" data-step="2">
+        <div class="step-inner">
+          <span class="step-label">
+            Montly Listening Time Across The Years
+          </span>
+          <p>
+            <!-- NARRATIVE: what changed from the last step? -->
+          </p>
+        </div>
+      </div>
+
+      <!-- ---------- STEP 3 ---------- -->
+      <div class="step" data-step="3">
+        <div class="step-inner">
+          <span class="step-label">
+            <!-- NARRATIVE: kicker -->
+          </span>
+          <p>
+            <!-- NARRATIVE: -->
+          </p>
+        </div>
+      </div>
+
+      <!-- ---------- STEP 4 ---------- -->
+      <div class="step" data-step="4">
+        <div class="step-inner">
+          <span class="step-label">
+            <!-- NARRATIVE: kicker -->
+          </span>
+          <p>
+            <!-- NARRATIVE: -->
+          </p>
+        </div>
+      </div>
+
+      <!-- ---------- STEP 5 ---------- -->
+      <div class="step" data-step="5">
+        <div class="step-inner">
+          <span class="step-label">
+            <!-- NARRATIVE: kicker -->
+          </span>
+          <p>
+            <!-- NARRATIVE: land the point. What was this chart for? -->
+          </p>
+        </div>
+      </div>
+
+      <!-- Copy a step block to add more. Keep data-step sequential —
+           your script.js will switch on it. -->
+
+    </article>
+  </section>
+
+
+  <!-- ============================================================
+       OUTRO — closing prose, also gives the sticky figure room to exit
+       ============================================================ -->
+  <section class="outro">
+    <h2 class="section-head">
+      <!-- NARRATIVE: closing header -->
+    </h2>
+    <p>
+      <!-- NARRATIVE: what does it add up to? -->
+    </p>
+    <p>
+      <!-- NARRATIVE: -->
+    </p>
+    <p class="source">
+      <!-- Methods note, code link, caveats -->
+      Built with D3 and Scrollama. Data prepared in R.
+      Code: <a href="https://github.com/">github.com/…</a>
+    </p>
+  </section>
+
 
   <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+  <script src="https://unpkg.com/scrollama"></script>
   <script src="script.js"></script>
 </body>
 </html>
