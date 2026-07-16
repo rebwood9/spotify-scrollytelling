@@ -72,4 +72,62 @@ ggplot(yearly_summary, aes(x = year)) +
   )
 
 ## Random ----
+### Heat map of day by year ----
+# add day of year as a new variable 
+daily_summary <- daily_summary |> 
+  mutate(date = make_date(year, month, day)) |> 
+  complete(
+    date = seq(min(date), max(date), by = "day"),
+    fill = list(total_minutes = 0)
+  ) |> 
+  mutate(
+    year = year(date),
+    doy = yday(date)
+  )
 
+# graph 
+ggplot(daily_summary, aes(x = doy, y = factor(year), fill = total_minutes)) + 
+  geom_tile() + 
+  scale_x_continuous(
+    breaks = yday(make_date(2021, 1:12, 15)), 
+    labels = month.abb, 
+    expand = c(0, 0)
+  ) + 
+  scale_y_discrete(limits = rev) +
+  scale_fill_viridis_c(option = "magma", trans = "sqrt", breaks = c(0, 100, 300, 600, 1000, 1500, 2500)) +
+  labs(
+    x = "Month", 
+    y = "Year",
+    fill = "Minutes", 
+    title = "Daily Listening Minutes"
+  ) + 
+  theme_minimal() + 
+  theme(
+    panel.grid = element_blank()
+  )
+
+### Heat map of month by year ----
+# graph 
+ggplot(monthly_summary, aes(x = month, y = factor(year), fill = total_minutes)) + 
+  geom_tile() + 
+  scale_x_continuous(
+    breaks = 1:12, 
+    labels = month.abb, 
+    expand = c(0, 0)
+  ) + 
+  scale_y_discrete(limits = rev) +
+  scale_fill_viridis_c(
+    option = "magma", 
+    trans = "sqrt", 
+    breaks = c(0, 1000, 2000, 4000, 6000, 8000)
+  ) +
+  labs(
+    x = "Month", 
+    y = "Year",
+    fill = "Minutes", 
+    title = "Montly Llistening Minutes"
+  ) + 
+  theme_minimal() + 
+  theme(
+    panel.grid = element_blank()
+  )
