@@ -74,6 +74,17 @@ daily_summary <- music_df |>
     .by = c(year, month, day)
   )
 
+daily_summary <- daily_summary |> 
+  mutate(date = make_date(year, month, day)) |> 
+  complete(
+    date = seq(min(date), max(date), by = "day"),
+    fill = list(total_minutes = 0)
+  ) |> 
+  mutate(
+    year = year(date),
+    doy = yday(date)
+  )
+
 ## Save tables ----
 write_excel_csv(yearly_summary, "data/processed/yearly_summary.csv")
 write_excel_csv(monthly_summary, "data/processed/monthly_summary.csv")
